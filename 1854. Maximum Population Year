@@ -1,0 +1,28 @@
+class Solution {
+    public int maximumPopulation(int[][] logs) {
+        // Correct array declaration with size
+        int[] populationChanges = new int[101];
+
+        for (int[] log : logs) {
+            int birthYear = log[0];
+            int deathYear = log[1];
+            populationChanges[birthYear - 1950]++;
+            populationChanges[deathYear - 1950]--;
+        }
+
+        int maxPopulation = 0;
+        int currentPopulation = 0;
+        int earliestMaxPopulationYear = 1950;
+
+        for (int i = 0; i < populationChanges.length; i++) {
+            currentPopulation += populationChanges[i];
+
+            if (currentPopulation > maxPopulation) {
+                maxPopulation = currentPopulation;
+                earliestMaxPopulationYear = i + 1950;
+            }
+        }
+
+        return earliestMaxPopulationYear;
+    }
+}

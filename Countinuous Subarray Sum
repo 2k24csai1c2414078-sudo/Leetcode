@@ -1,0 +1,28 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        unordered_map<int, int> mp;
+        mp.reserve(nums.size() * 2);
+        mp.max_load_factor(0.7f);
+        mp[0] = -1;
+
+        int prefix = 0;
+
+        for (int i = 0; i < (int)nums.size(); ++i) {
+            prefix += nums[i];
+            int rem = (k == 0) ? prefix : prefix % k;
+            if (rem < 0) rem += k;
+
+            auto it = mp.find(rem);
+            if (it != mp.end()) {
+                if (i - it->second > 1) return true;
+            } else {
+                mp.emplace(rem, i);
+            }
+        }
+        return false;
+    }
+};
